@@ -33,9 +33,9 @@
         <Datepicker v-model:value="rawDataModel" value-type="format" format="YYYY" type="year" />
       </template>
       <template v-if="props.type == 'select'">
-        <!-- <vue-multiselect v-model="rawDataModel" :options="rawOptions" :label="selectLabel" :track-by="selectValue"
-          :placeholder="props.placeholder">
-        </vue-multiselect> -->
+        <Vuemultiselect v-model="rawDataModel" :options="rawOptions" :label="props.selectLabel"
+          :track-by="props.selectValue" :placeholder="props.placeholder">
+        </Vuemultiselect>
       </template>
       <template v-if="props.type == 'textarea'">
         <textarea v-model="rawDataModel" :placeholder="props.placeholder"></textarea>
@@ -138,7 +138,7 @@ onMounted(() => {
 
 const initDate = () => {
   rawDataModel.value = JSON.parse(JSON.stringify(props.dataModel)) || null
-  rawOptions.value = props.options || []
+  rawOptions.value = JSON.parse(JSON.stringify(props.options)) || []
 }
 
 const callBack = () => {

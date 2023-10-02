@@ -39,7 +39,6 @@ const router = useRouter();
 const store = useIndexStore();
 
 const loading = ref<boolean>(false);
-const date = ref<number | null>(null);
 const form = ref<LoginRequest>({
   Username: '',
   Password: ''
@@ -47,9 +46,6 @@ const form = ref<LoginRequest>({
 
 const onSubmit = async (event: Event) => {
   event.preventDefault()
-
-  console.log(date.value);
-
 
   if (!form.value.Username || !form.value.Password) {
     $swal.fire({

@@ -25,6 +25,7 @@
     "js-cookie": "^3.0.1",
     "pinia": "^2.1.3",
     "sweetalert2": "^11.7.5",
-    "vue-datepicker-next": "^1.0.3"
+    "vue-datepicker-next": "^1.0.3",
+    "vue-multiselect": "^3.0.0-beta.2"
   }
 }
