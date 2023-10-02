@@ -1,0 +1,25 @@
+html,
+body {
+  font-family: 'Courier New', monospace;
+  background-color: rgba(0, 0, 0, 0.79);
+}
+
+.text-title {
+  font-family: 'Times New Roman', serif !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.gap-auto {
+  gap: 8px;
+}
+
+.table-responsive {
+  margin: 0;
+  .table th,
+  .table td {
+    border-top: none !important;
+  }
+}
