@@ -27,15 +27,15 @@
         <input type="number" class="form-control" v-model.number="rawDataModel" :placeholder="props.placeholder">
       </template>
       <template v-if="props.type == 'date'">
-        <Datepicker v-model="rawDataModel" class="datePicker" value-type="timestamp" format="DD/MM/YYYY" />
+        <Datepicker v-model:value="rawDataModel" value-type="timestamp" format="DD/MM/YYYY" />
       </template>
       <template v-if="props.type == 'year'">
-        <Datepicker v-model="rawDataModel" value-type="format" format="YYYY" type="year" />
+        <Datepicker v-model:value="rawDataModel" value-type="format" format="YYYY" type="year" />
       </template>
       <template v-if="props.type == 'select'">
-        <vue-multiselect v-model="rawDataModel" :options="rawOptions" :label="selectLabel" :track-by="selectValue"
+        <!-- <vue-multiselect v-model="rawDataModel" :options="rawOptions" :label="selectLabel" :track-by="selectValue"
           :placeholder="props.placeholder">
-        </vue-multiselect>
+        </vue-multiselect> -->
       </template>
       <template v-if="props.type == 'textarea'">
         <textarea v-model="rawDataModel" :placeholder="props.placeholder"></textarea>
@@ -58,7 +58,6 @@
 </template>
 
 <script setup lang="ts">
-
 export interface Props {
   dataModel?: any
   placeholder?: string
@@ -143,7 +142,7 @@ const initDate = () => {
 }
 
 const callBack = () => {
-  emit('return', rawDataModel)
+  emit('return', rawDataModel.value)
 }
 </script>
 
@@ -205,12 +204,16 @@ const callBack = () => {
     padding: 0 0 0 12px;
   }
 
-  .mx-input {
-    border: none !important;
-    box-shadow: none !important;
+  .mx-datepicker {
+    width: 100%;
 
-    &:hover {
-      border-color: transparent !important;
+    .mx-input {
+      border: none !important;
+      box-shadow: none !important;
+
+      &:hover {
+        border-color: transparent !important;
+      }
     }
   }
 
