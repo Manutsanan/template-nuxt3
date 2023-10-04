@@ -1,32 +1,46 @@
 <template>
   <div class="left-sidebar" :class="isOpen && 'show'">
     <div class="text-center logo">
-      <h4 class="text-title m-0">Dragon Payment</h4>
+      <h4 class="text-title m-0">TEMPLATE</h4>
       <div class="boder-line"></div>
     </div>
     <div class="menu-list">
       <div v-for="menu in menuLists" :key="menu?.index" class="menu">
         <template v-if="menu?.childs?.length">
-          <div class="menu-header cursor-pointer" @click="menu.show = !menu.show">
+          <div
+            class="menu-header cursor-pointer"
+            @click="menu.show = !menu.show"
+          >
             <div class="menu-title">
               <i v-if="menu?.icon" :class="menu?.icon"></i>
-              {{ menu?.name || '-' }}
+              {{ menu?.name || "-" }}
             </div>
-            <i class="fa-regular" :class="(menu.show && 'fa-caret-down') || 'fa-caret-left'"></i>
+            <i
+              class="fa-regular"
+              :class="(menu.show && 'fa-caret-down') || 'fa-caret-left'"
+            ></i>
           </div>
           <div v-if="menu?.show == true" class="menu-child">
-            <div v-for="child in menu.childs" :key="child.index" class="child cursor-pointer"
-              :class="child.active && 'active'" @click="onClickNextRoute(child.to)">
+            <div
+              v-for="child in menu.childs"
+              :key="child.index"
+              class="child cursor-pointer"
+              :class="child.active && 'active'"
+              @click="onClickNextRoute(child.to)"
+            >
               <i class="fa-solid fa-minus fa-2xs"></i>{{ child.name }}
             </div>
           </div>
         </template>
         <template v-else>
-          <div class="menu-header-main cursor-pointer" :class="menu.active && 'active'"
-            @click="onClickNextRoute(menu.to)">
+          <div
+            class="menu-header-main cursor-pointer"
+            :class="menu.active && 'active'"
+            @click="onClickNextRoute(menu.to)"
+          >
             <div class="menu-title">
               <i v-if="menu?.icon" :class="menu?.icon"></i>
-              {{ menu?.name || '-' }}
+              {{ menu?.name || "-" }}
             </div>
           </div>
         </template>
@@ -36,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { useIndexStore } from '@/store/index.store';
+import { useIndexStore } from "@/store/index.store";
 
 const router = useRouter();
 const route = useRoute();
@@ -45,93 +59,95 @@ const store = useIndexStore();
 const menuLists = ref<any>([
   {
     active: false,
-    name: 'Dashboard',
-    icon: 'fa-solid fa-grid-horizontal',
-    to: '/'
+    name: "Dashboard",
+    icon: "fa-solid fa-grid-horizontal",
+    to: "/",
   },
   {
     show: true,
-    name: 'User Manage',
-    icon: 'fa-solid fa-users',
+    name: "User Manage",
+    icon: "fa-solid fa-users",
     childs: [
       {
         active: false,
-        name: 'User',
-        to: '/user-manage/user'
+        name: "User",
+        to: "/user-manage/user",
       },
-    ]
+    ],
   },
   {
     show: true,
-    name: 'Role Permission',
-    icon: 'fa-solid fa-shield-halved',
+    name: "Role Permission",
+    icon: "fa-solid fa-shield-halved",
     childs: [
       {
         active: false,
-        name: 'Role',
-        to: '/role-permission/role'
+        name: "Role",
+        to: "/role-permission/role",
       },
       {
         active: false,
-        name: 'Permission',
-        to: '/role-permission/permission'
+        name: "Permission",
+        to: "/role-permission/permission",
       },
-    ]
+    ],
   },
   {
     active: false,
-    name: 'Setting',
-    icon: 'fa-solid fa-gear',
-    to: '/setting'
+    name: "Setting",
+    icon: "fa-solid fa-gear",
+    to: "/setting",
   },
   {
     active: false,
-    name: 'Log',
-    icon: 'fa-regular fa-arrow-progress',
-    to: '/log'
+    name: "Log",
+    icon: "fa-regular fa-arrow-progress",
+    to: "/log",
   },
 ]);
 
 const isOpen = computed(() => {
-  return store.$state.isOpen
-})
+  return store.$state.isOpen;
+});
 
 watch(
   () => route.path,
   () => {
-    initDate()
-  }, {
-  deep: true
-})
+    initDate();
+  },
+  {
+    deep: true,
+  }
+);
 
 onMounted(() => {
-  initDate()
-})
+  initDate();
+});
 
 const initDate = () => {
   for (let index = 0; index < menuLists.value.length; index++) {
-    const menuList = menuLists.value[index]
+    const menuList = menuLists.value[index];
     if (menuList?.to && menuList?.to === route.path) {
-      menuList.active = true
+      menuList.active = true;
     } else if (menuList?.childs?.length) {
       for (let index = 0; index < menuList.childs.length; index++) {
-        const child = menuList.childs[index]
+        const child = menuList.childs[index];
         if (child?.to && child?.to === route.path) {
-          menuList.show = true
-          child.active = true
+          menuList.show = true;
+          child.active = true;
         } else {
-          child.active = false
+          child.active = false;
         }
       }
     } else {
-      menuList.active = false
+      menuList.active = false;
     }
   }
-}
+};
 
 const onClickNextRoute = (to: string) => {
-  router.push(to)
-}
+  router.push(to);
+};
 </script>
 
 <style lang="scss">
