@@ -18,5 +18,33 @@ export default defineNuxtConfig({
     },
   },
   css: ['bootstrap/scss/bootstrap.scss', 'sweetalert2/src/sweetalert2.scss', "~/assets/scss/main.scss"],
-  modules: ['@pinia/nuxt'],
+  modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
+  i18n: {
+    lazy: true,
+    langDir: 'locales',
+    defaultLocale: "th",
+    strategy: "no_prefix",
+    locales: [
+      {
+        code: 'th',
+        iso: 'th-TH',
+        name: 'Thai',
+        file: 'th.ts',
+        path_image: '/images/flag/th.png'
+      },
+      {
+        code: 'en',
+        iso: 'en-US',
+        name: 'English',
+        file: 'en.ts',
+        path_image: '/images/flag/en.png'
+      }
+    ],
+    detectBrowserLanguage: {
+      fallbackLocale: 'th',
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      redirectOn: "root", // recommended
+    },
+  }
 })

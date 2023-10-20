@@ -7,32 +7,46 @@
     <hr />
     <form class="row g-2" @submit="onSubmit">
       <div class="col-12">
-        <FormGroup type="input" title="Username" :data-model="form.Username" is-unique @return="form.Username = $event" />
+        <FormGroup
+          type="input"
+          :title="$t('Username')"
+          :data-model="form.Username"
+          is-unique
+          @return="form.Username = $event"
+        />
       </div>
       <div class="col-12">
-        <FormGroup type="password" title="Password" :data-model="form.Password" is-unique back
-          @return="form.Password = $event" />
+        <FormGroup
+          type="password"
+          :title="$t('Password')"
+          :data-model="form.Password"
+          is-unique
+          back
+          @return="form.Password = $event"
+        />
       </div>
       <div class="col-12 text-end">
-        <button type="submit" class="btn btn-secondary" :disabled="loading"> Login </button>
+        <button type="submit" class="btn btn-secondary" :disabled="loading">
+          {{ $t("Login") }}
+        </button>
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { LoginRequest } from '@/models/auth.model';
-import { useIndexStore } from '@/store/index.store';
+import { LoginRequest } from "@/models/auth.model";
+import { useIndexStore } from "@/store/index.store";
 
 defineComponent({
   setup() {
     definePageMeta({
-      name: 'LoginPage',
-      layout: 'custom',
-      middleware: 'login'
+      name: "LoginPage",
+      layout: "custom",
+      middleware: "login",
     });
   },
-})
+});
 
 const { $swal }: any = useNuxtApp();
 const router = useRouter();
@@ -40,35 +54,35 @@ const store = useIndexStore();
 
 const loading = ref<boolean>(false);
 const form = ref<LoginRequest>({
-  Username: '',
-  Password: ''
+  Username: "",
+  Password: "",
 });
 
 const onSubmit = async (event: Event) => {
-  event.preventDefault()
+  event.preventDefault();
 
   if (!form.value.Username || !form.value.Password) {
     $swal.fire({
-      icon: 'warning',
-      title: 'warning !',
-      text: 'Username or password incorrect.'
-    })
-    return
+      icon: "warning",
+      title: "warning !",
+      text: "Username or password incorrect.",
+    });
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
   try {
-    const token = Math.floor(new Date().getTime() / 1000)
-    store.setCookie('accessToken', token, 60 * 60 * 12)
-    store.setCookie('displayName', form.value.Username, 60 * 60 * 12)
+    const token = Math.floor(new Date().getTime() / 1000);
+    store.setCookie("accessToken", token, 60 * 60 * 12);
+    store.setCookie("displayName", form.value.Username, 60 * 60 * 12);
 
     router.push("/");
   } catch (error) {
-    // 
+    //
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <style lang="scss">
