@@ -4,11 +4,14 @@
       {{ props.title }} <span v-if="props.isUnique" class="text-danger">*</span>
     </label>
 
-    <div class="input-group-custom" :class="[
-      props.isUnique
-        ? (uniqueValidate && 'is-validate-true') || 'is-validate-false'
-        : validate && 'is-validate-true'
-    ]">
+    <div
+      class="input-group-custom"
+      :class="[
+        props.isUnique
+          ? (uniqueValidate && 'is-validate-true') || 'is-validate-false'
+          : validate && 'is-validate-true',
+      ]"
+    >
       <template v-if="!props.back && (props.icon || props.iconText)">
         <div class="icon-group-front">
           <i :class="props.icon"></i>
@@ -17,28 +20,59 @@
       </template>
 
       <template v-if="props.type == 'input'">
-        <input type="text" class="form-control" v-model="rawDataModel" :placeholder="props.placeholder">
+        <input
+          type="text"
+          class="form-control"
+          v-model="rawDataModel"
+          :placeholder="props.placeholder"
+        />
       </template>
       <template v-if="props.type == 'password'">
-        <input :type="(typePassword && 'password') || 'text'" class="form-control" v-model="rawDataModel"
-          :placeholder="props.placeholder">
+        <input
+          :type="(typePassword && 'password') || 'text'"
+          class="form-control"
+          v-model="rawDataModel"
+          :placeholder="props.placeholder"
+        />
       </template>
       <template v-if="props.type == 'number'">
-        <input type="number" class="form-control" v-model.number="rawDataModel" :placeholder="props.placeholder">
+        <input
+          type="number"
+          class="form-control"
+          v-model.number="rawDataModel"
+          :placeholder="props.placeholder"
+        />
       </template>
       <template v-if="props.type == 'date'">
-        <Datepicker v-model:value="rawDataModel" value-type="timestamp" format="DD/MM/YYYY" />
+        <Datepicker
+          v-model:value="rawDataModel"
+          value-type="timestamp"
+          format="DD/MM/YYYY"
+        />
       </template>
       <template v-if="props.type == 'year'">
-        <Datepicker v-model:value="rawDataModel" value-type="format" format="YYYY" type="year" />
+        <Datepicker
+          v-model:value="rawDataModel"
+          value-type="format"
+          format="YYYY"
+          type="year"
+        />
       </template>
       <template v-if="props.type == 'select'">
-        <Vuemultiselect v-model="rawDataModel" :options="rawOptions" :label="props.selectLabel"
-          :track-by="props.selectValue" :placeholder="props.placeholder">
-        </Vuemultiselect>
+        <Multiselect
+          v-model="rawDataModel"
+          :options="rawOptions"
+          :label="props.selectLabel"
+          :track-by="props.selectValue"
+          :placeholder="props.placeholder"
+        >
+        </Multiselect>
       </template>
       <template v-if="props.type == 'textarea'">
-        <textarea v-model="rawDataModel" :placeholder="props.placeholder"></textarea>
+        <textarea
+          v-model="rawDataModel"
+          :placeholder="props.placeholder"
+        ></textarea>
       </template>
 
       <template v-if="props.back && (props.icon || props.iconText)">
@@ -49,8 +83,11 @@
       </template>
       <template v-if="props.type == 'password' && back">
         <div class="icon-group-back">
-          <i class="fa-solid cursor-pointer eye-password" :class="(typePassword && 'fa-eye') || 'fa-eye-slash'"
-            @click="typePassword = !typePassword"></i>
+          <i
+            class="fa-solid cursor-pointer eye-password"
+            :class="(typePassword && 'fa-eye') || 'fa-eye-slash'"
+            @click="typePassword = !typePassword"
+          ></i>
         </div>
       </template>
     </div>
@@ -59,91 +96,95 @@
 
 <script setup lang="ts">
 export interface Props {
-  dataModel?: any
-  placeholder?: string
-  title?: string
-  type?: string
-  icon?: string
-  iconText?: string
-  back?: boolean
-  isUnique?: boolean
-  isDisabled?: boolean
-  options?: any,
-  selectLabel?: string,
-  selectValue?: string
+  dataModel?: any;
+  placeholder?: string;
+  title?: string;
+  type?: string;
+  icon?: string;
+  iconText?: string;
+  back?: boolean;
+  isUnique?: boolean;
+  isDisabled?: boolean;
+  options?: any;
+  selectLabel?: string;
+  selectValue?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   dataModel: null,
-  placeholder: '',
-  title: 'Label',
-  type: 'input',
-  icon: '',
-  iconText: '',
+  placeholder: "",
+  title: "Label",
+  type: "input",
+  icon: "",
+  iconText: "",
   back: false,
   isUnique: false,
   isDisabled: false,
   options: [],
-  selectLabel: 'text',
-  selectValue: 'value',
-})
+  selectLabel: "text",
+  selectValue: "value",
+});
 
-const emit = defineEmits(['return'])
+const emit = defineEmits(["return"]);
 
 const typePassword = ref<boolean>(true);
 const rawDataModel = ref<any>(null);
 const rawOptions = ref<any>([]);
 
 const uniqueValidate = computed(() => {
-  if (rawDataModel.value == null || rawDataModel.value === '') {
-    return true
+  if (rawDataModel.value == null || rawDataModel.value === "") {
+    return true;
   }
 
-  if (props.type === 'number' && rawDataModel.value < 0) {
-    return true
+  if (props.type === "number" && rawDataModel.value < 0) {
+    return true;
   }
 
-  return false
-})
+  return false;
+});
 const validate = computed(() => {
-  if (props.type === 'number' && rawDataModel.value < 0) {
-    return true
+  if (props.type === "number" && rawDataModel.value < 0) {
+    return true;
   }
 
-  return false
-})
+  return false;
+});
 
-watch([props?.dataModel, props?.options, rawDataModel], ([newA, newB, newC]: any, [prevA, prevB, prevC]: any,) => {
-  // condition 1
-  if (newA != prevA) {
-    if (props.type !== 'select') {
-      initDate()
+watch(
+  [props?.dataModel, props?.options, rawDataModel],
+  ([newA, newB, newC]: any, [prevA, prevB, prevC]: any) => {
+    // condition 1
+    if (newA != prevA) {
+      if (props.type !== "select") {
+        initDate();
+      }
     }
+    // condition 2
+    if (newB != prevB) {
+      initDate();
+    }
+    // condition 3
+    if (newC != prevC) {
+      callBack();
+    }
+  },
+  {
+    deep: true,
   }
-  // condition 2
-  if (newB != prevB) {
-    initDate()
-  }
-  // condition 3
-  if (newC != prevC) {
-    callBack()
-  }
-}, {
-  deep: true
-})
+);
 
 onMounted(() => {
-  initDate()
-})
+  initDate();
+});
 
 const initDate = () => {
-  rawDataModel.value = JSON.parse(JSON.stringify(props.dataModel)) || null
-  rawOptions.value = JSON.parse(JSON.stringify(props.options)) || []
-}
+  rawDataModel.value = JSON.parse(JSON.stringify(props.dataModel)) || null;
+  rawOptions.value = JSON.parse(JSON.stringify(props.options)) || [];
+};
 
 const callBack = () => {
-  emit('return', rawDataModel.value)
-}
+  emit("return", rawDataModel.value);
+};
 </script>
 
 <style lang="scss">
@@ -185,7 +226,7 @@ const callBack = () => {
     margin: 0;
   }
 
-  input[type='number'] {
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 

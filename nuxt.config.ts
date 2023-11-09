@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: {
+    enabled: false
+  },
 
   ssr: false,
   runtimeConfig: {
@@ -8,6 +10,7 @@ export default defineNuxtConfig({
       baseUrl: "",
     }
   },
+
   app: {
     head: {
       title: 'NEW TEMPLATE',
@@ -19,8 +22,19 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ['bootstrap/scss/bootstrap.scss', 'sweetalert2/src/sweetalert2.scss', "~/assets/scss/main.scss"],
+
+  css: ["~/assets/css/tailwind.css", "sweetalert2/src/sweetalert2.scss", "~/assets/scss/main.scss"],
+
   modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+      'postcss-nesting': {}
+    },
+  },
+
   i18n: {
     lazy: true,
     langDir: 'locales',

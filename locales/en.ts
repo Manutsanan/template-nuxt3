@@ -3,4 +3,5 @@ export default {
   Logout: 'Logout',
   Username: 'Username',
   Password: 'Password',
+  Loading: 'Loading...',
 }

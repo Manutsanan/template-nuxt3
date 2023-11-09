@@ -3,4 +3,5 @@ export default {
   Logout: 'ออกจากระบบ',
   Username: 'ยูสเซอร์เนม',
   Password: 'รหัสผ่าน',
+  Loading: 'กำลังโหลด...',
 }
