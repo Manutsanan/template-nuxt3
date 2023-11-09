@@ -10,19 +10,19 @@
         <FormGroup
           type="input"
           :title="$t('Username')"
-          :data-model="form.Username"
+          :data-model="form.username"
           is-unique
-          @return="form.Username = $event"
+          @return="form.username = $event"
         />
       </div>
       <div class="col-12">
         <FormGroup
           type="password"
           :title="$t('Password')"
-          :data-model="form.Password"
+          :data-model="form.password"
           is-unique
           back
-          @return="form.Password = $event"
+          @return="form.password = $event"
         />
       </div>
       <div class="col-12 text-end">
@@ -37,6 +37,7 @@
 <script setup lang="ts">
 import { LoginRequest } from "@/models/auth.model";
 import { useIndexStore } from "@/store/index.store";
+import service from "~/service";
 
 defineComponent({
   setup() {
@@ -53,15 +54,15 @@ const router = useRouter();
 const store = useIndexStore();
 
 const loading = ref<boolean>(false);
-const form = ref<LoginRequest>({
-  Username: "",
-  Password: "",
+const form = reactive<LoginRequest>({
+  username: "",
+  password: "",
 });
 
 const onSubmit = async (event: Event) => {
   event.preventDefault();
 
-  if (!form.value.Username || !form.value.Password) {
+  if (!form.username || !form.password) {
     $swal.fire({
       icon: "warning",
       title: "warning !",
@@ -72,11 +73,19 @@ const onSubmit = async (event: Event) => {
 
   loading.value = true;
   try {
-    const token = Math.floor(new Date().getTime() / 1000);
-    store.setCookie("accessToken", token, 60 * 60 * 12);
-    store.setCookie("displayName", form.value.Username, 60 * 60 * 12);
+    const response: any = await service.auth.login({
+      username: form.username,
+      password: form.password,
+    });
 
-    router.push("/");
+    if (response?.code == "200") {
+      const refToken = setCookie("token");
+      refToken.value = response?.data?.access_token || "";
+      const refUsername = setCookie("username");
+      refUsername.value = form.username || "";
+
+      router.push("/");
+    }
   } catch (error) {
     //
   } finally {

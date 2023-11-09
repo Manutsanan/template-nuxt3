@@ -1,9 +1,10 @@
-import { verify } from '~/composables/authentication';
+import { setCookie } from "~/composables/useCookie";
 
 export default defineNuxtRouteMiddleware((to, from) => {
-    let accessToken = verify()
+    verify()
+    const refToken = setCookie('token')
 
-    if (!accessToken) {
+    if (!refToken.value) {
         return navigateTo("/login");
     }
 })
