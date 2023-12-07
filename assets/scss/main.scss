@@ -7,3 +7,59 @@ body {
   background-color: rgba(0, 0, 0, 0.79);
   color: #fff;
 }
+
+.table {
+  width: 100% !important;
+
+  thead {
+    tr {
+      border: 1px solid #e2e8ef;
+
+      th {
+        @apply px-3 sm:px-3 md:px-2 py-2;
+        font-size: 14px;
+        vertical-align: middle;
+        font-weight: 500;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border: 1px solid #e2e8ef;
+      &:hover {
+        background-color: rgba(108, 95, 252, 0.1);
+      }
+
+      td {
+        @apply px-3 sm:px-3 md:px-2 py-2.5;
+        font-size: 14px;
+        vertical-align: middle;
+        font-weight: 300;
+      }
+    }
+  }
+}
+
+.scrollbar-auto {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+  }
+  &::-webkit-scrollbar-button {
+    display: block;
+    height: 0;
+    width: 0;
+    background-color: transparent;
+  }
+}

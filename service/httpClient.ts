@@ -1,6 +1,6 @@
-import { $fetch, FetchOptions } from "ofetch";
+import { $fetch, type FetchOptions } from "ofetch";
 import { setCookie } from "~/composables/useCookie";
-import { Response } from "~/models/http.model";
+import type { Response } from "~/models/http.model";
 
 export function client<T, R extends Response<T> = Response<T>>(url: string, opts?: FetchOptions<"json">) {
    const config = useRuntimeConfig()
